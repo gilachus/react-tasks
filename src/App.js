@@ -3,16 +3,17 @@ import "./App.css";
 import { TaskCreator } from "./components/TaskCreator";
 
 function App() {
-  const [tasksItems, setTasksItems] = useState([
-    { name: "primer tarea", done: false },
-    { name: "segunda tarea", done: false },
-  ]);
+  const [tasksItems, setTasksItems] = useState([]);
   function createNewTask(taskName) {
     // console.log('creando')
     if (!tasksItems.find((task) => task.name === taskName)) {
       setTasksItems([...tasksItems, { name: taskName, done: false }]);
     }
   }
+  useEffect(() => {
+    if(localStorage.getItem(tasksItems))
+      setTasksItems(JSON.parse(localStorage.getItem(tasksItems)))
+  }, [])
   useEffect(() => {
     localStorage.setItem('tasks', JSON.stringify(tasksItems))
   }, [tasksItems]);
